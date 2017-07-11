@@ -41,7 +41,7 @@ public class JDBC {
                 rs.close(); // 关闭结果集
             }
             if (pst != null) {
-                pst.close(); // 关闭 reparedStatement
+                pst.close(); // 关闭 preparedStatement
             }
             if (conn != null) {
                 conn.close(); // 关闭连接
