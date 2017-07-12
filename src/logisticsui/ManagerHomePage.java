@@ -6,6 +6,16 @@
 
 package logisticsui;
 
+import user.Purchaser;
+import util.Data;
+import util.JDBC;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
+
 /**
  *
  * @author 向光性
@@ -28,27 +38,39 @@ public class ManagerHomePage extends javax.swing.JFrame {
     private void initComponents() {
 
         purchaserDialog = new javax.swing.JDialog();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        purchaserScrollPane = new javax.swing.JScrollPane();
+        purchaserTable = new javax.swing.JTable();
+        purchaserCancel = new javax.swing.JButton();
+        purchaserConfirm = new javax.swing.JButton();
         pickerDialog = new javax.swing.JDialog();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        pickerScrollPane = new javax.swing.JScrollPane();
+        pickerTable = new javax.swing.JTable();
+        pickerCancel = new javax.swing.JButton();
+        pickerConfirm = new javax.swing.JButton();
         commodityDialog = new javax.swing.JDialog();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        commodityScrollPane = new javax.swing.JScrollPane();
+        commodityTable = new javax.swing.JTable();
+        commodityCancel = new javax.swing.JButton();
+        commodityConfirm = new javax.swing.JButton();
+        purchasePlanDialog = new javax.swing.JDialog();
+        purchasePlanScrollPane = new javax.swing.JScrollPane();
+        purchasePlanTable = new javax.swing.JTable();
+        purchasePlanCancel = new javax.swing.JButton();
+        purchasePlanConfirm = new javax.swing.JButton();
+        pickPlanDialog = new javax.swing.JDialog();
+        pickPlanScrollPane = new javax.swing.JScrollPane();
+        pickPlanTable = new javax.swing.JTable();
+        pickPlanCancel = new javax.swing.JButton();
+        pickPlanConfirm = new javax.swing.JButton();
         checkStorageDialog = new javax.swing.JDialog();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        checkStorageScrollPane = new javax.swing.JScrollPane();
+        checkStorageTable = new javax.swing.JTable();
+        checkStorageCancel = new javax.swing.JButton();
+        checkStorageConfirm = new javax.swing.JButton();
         passwordChangeDialog = new javax.swing.JDialog();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        oldPasswordTF = new javax.swing.JTextField();
+        newPasswordTF = new javax.swing.JTextField();
+        newPasswordAgainTF = new javax.swing.JTextField();
         passwordChangeConfirm = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -57,10 +79,22 @@ public class ManagerHomePage extends javax.swing.JFrame {
         purchaser = new javax.swing.JButton();
         picker = new javax.swing.JButton();
         commodity = new javax.swing.JButton();
+        purchasePlan = new javax.swing.JButton();
+        pickPlan = new javax.swing.JButton();
+        checkStorage = new javax.swing.JButton();
         passwordChange = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        purchaserDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        purchaserDialog.setAlwaysOnTop(true);
+        purchaserDialog.setFocusableWindowState(true);
+        purchaserDialog.setModal(true);
+        purchaserDialog.setResizable(false);
+        purchaserDialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                purchaserDialogWindowClosed(evt);
+            }
+        });
+        purchaserTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -104,47 +138,73 @@ public class ManagerHomePage extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "标题 5"
+                "工号", "密码", "姓名", "性别", "电话号码"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable1);
+        purchaserScrollPane.setViewportView(purchaserTable);
 
-        jButton1.setText("jButton1");
+        purchaserCancel.setText("取消更改");
+        purchaserCancel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                purchaserCancelMouseClicked(evt);
+            }
+        });
 
-        jButton2.setText("jButton2");
+        purchaserConfirm.setText("确认更改");
+        purchaserConfirm.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                purchaserConfirmMouseClicked(evt);
+            }
+        });
+        purchaserConfirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                purchaserConfirmActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout purchaserDialogLayout = new javax.swing.GroupLayout(purchaserDialog.getContentPane());
         purchaserDialog.getContentPane().setLayout(purchaserDialogLayout);
         purchaserDialogLayout.setHorizontalGroup(
             purchaserDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
+            .addComponent(purchaserScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
             .addGroup(purchaserDialogLayout.createSequentialGroup()
-                .addGap(173, 173, 173)
-                .addComponent(jButton1)
-                .addGap(77, 77, 77)
-                .addComponent(jButton2)
+                .addGap(186, 186, 186)
+                .addComponent(purchaserCancel)
+                .addGap(60, 60, 60)
+                .addComponent(purchaserConfirm)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         purchaserDialogLayout.setVerticalGroup(
             purchaserDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(purchaserDialogLayout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(purchaserScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(purchaserDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(purchaserCancel)
+                    .addComponent(purchaserConfirm))
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        pickerDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        pickerDialog.setAlwaysOnTop(true);
+        pickerDialog.setFocusableWindowState(false);
+        pickerDialog.setModal(true);
+        pickerDialog.setResizable(false);
+        pickerDialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                pickerDialogWindowClosed(evt);
+            }
+        });
+
+        pickerTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -188,161 +248,521 @@ public class ManagerHomePage extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "标题 5"
+                "工号", "密码", "姓名", "性别", "电话号码"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable2);
+        pickerScrollPane.setViewportView(pickerTable);
 
-        jButton3.setText("jButton1");
+        pickerCancel.setText("取消更改");
+        pickerCancel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pickerCancelMouseClicked(evt);
+            }
+        });
 
-        jButton4.setText("jButton2");
+        pickerConfirm.setText("确认更改");
+        pickerConfirm.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pickerConfirmMouseClicked(evt);
+            }
+        });
+        pickerConfirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pickerConfirmActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pickerDialogLayout = new javax.swing.GroupLayout(pickerDialog.getContentPane());
         pickerDialog.getContentPane().setLayout(pickerDialogLayout);
         pickerDialogLayout.setHorizontalGroup(
             pickerDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
+            .addComponent(pickerScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
             .addGroup(pickerDialogLayout.createSequentialGroup()
-                .addGap(173, 173, 173)
-                .addComponent(jButton3)
-                .addGap(77, 77, 77)
-                .addComponent(jButton4)
+                .addGap(186, 186, 186)
+                .addComponent(pickerCancel)
+                .addGap(60, 60, 60)
+                .addComponent(pickerConfirm)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pickerDialogLayout.setVerticalGroup(
             pickerDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pickerDialogLayout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pickerScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pickerDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(pickerCancel)
+                    .addComponent(pickerConfirm))
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        commodityDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        commodityDialog.setAlwaysOnTop(true);
+        commodityDialog.setFocusableWindowState(false);
+        commodityDialog.setModal(true);
+        commodityDialog.setResizable(false);
+        commodityDialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                commodityDialogWindowClosed(evt);
+            }
+        });
+
+        commodityTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "标题 5"
+                "商品编号", "商品名称", "生产公司"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jScrollPane4.setViewportView(jTable3);
+        commodityScrollPane.setViewportView(commodityTable);
 
-        jButton5.setText("jButton1");
+        commodityCancel.setText("取消更改");
+        commodityCancel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                commodityCancelMouseClicked(evt);
+            }
+        });
 
-        jButton6.setText("jButton2");
+        commodityConfirm.setText("确认更改");
+        commodityConfirm.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                commodityConfirmMouseClicked(evt);
+            }
+        });
+        commodityConfirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                commodityConfirmActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout commodityDialogLayout = new javax.swing.GroupLayout(commodityDialog.getContentPane());
         commodityDialog.getContentPane().setLayout(commodityDialogLayout);
         commodityDialogLayout.setHorizontalGroup(
             commodityDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
+            .addComponent(commodityScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
             .addGroup(commodityDialogLayout.createSequentialGroup()
-                .addGap(173, 173, 173)
-                .addComponent(jButton5)
-                .addGap(77, 77, 77)
-                .addComponent(jButton6)
+                .addGap(186, 186, 186)
+                .addComponent(commodityCancel)
+                .addGap(60, 60, 60)
+                .addComponent(commodityConfirm)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         commodityDialogLayout.setVerticalGroup(
             commodityDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(commodityDialogLayout.createSequentialGroup()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(commodityScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(commodityDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6))
+                    .addComponent(commodityCancel)
+                    .addComponent(commodityConfirm))
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        purchasePlanDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        purchasePlanDialog.setAlwaysOnTop(true);
+        purchasePlanDialog.setFocusableWindowState(false);
+        purchasePlanDialog.setModal(true);
+        purchasePlanDialog.setResizable(false);
+        purchasePlanDialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                purchasePlanDialogWindowClosed(evt);
+            }
+        });
+
+        purchasePlanTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "采购者工号", "商品编号", "购买日期", "购买数量"
             }
-        ));
-        jScrollPane5.setViewportView(jTable4);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        purchasePlanScrollPane.setViewportView(purchasePlanTable);
+
+        purchasePlanCancel.setText("取消更改");
+        purchasePlanCancel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                purchasePlanCancelMouseClicked(evt);
+            }
+        });
+
+        purchasePlanConfirm.setText("确认更改");
+        purchasePlanConfirm.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                purchasePlanConfirmMouseClicked(evt);
+            }
+        });
+        purchasePlanConfirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                purchasePlanConfirmActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout purchasePlanDialogLayout = new javax.swing.GroupLayout(purchasePlanDialog.getContentPane());
+        purchasePlanDialog.getContentPane().setLayout(purchasePlanDialogLayout);
+        purchasePlanDialogLayout.setHorizontalGroup(
+            purchasePlanDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(purchasePlanScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
+            .addGroup(purchasePlanDialogLayout.createSequentialGroup()
+                .addGap(186, 186, 186)
+                .addComponent(purchasePlanCancel)
+                .addGap(60, 60, 60)
+                .addComponent(purchasePlanConfirm)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        purchasePlanDialogLayout.setVerticalGroup(
+            purchasePlanDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(purchasePlanDialogLayout.createSequentialGroup()
+                .addComponent(purchasePlanScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(purchasePlanDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(purchasePlanCancel)
+                    .addComponent(purchasePlanConfirm))
+                .addGap(0, 12, Short.MAX_VALUE))
+        );
+
+        pickPlanDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        pickPlanDialog.setAlwaysOnTop(true);
+        pickPlanDialog.setFocusableWindowState(false);
+        pickPlanDialog.setModal(true);
+        pickPlanDialog.setResizable(false);
+        pickPlanDialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                pickPlanDialogWindowClosed(evt);
+            }
+        });
+
+        pickPlanTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "提货者工号", "商品编号", "提单时间", "提单数量"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        pickPlanScrollPane.setViewportView(pickPlanTable);
+        if (pickPlanTable.getColumnModel().getColumnCount() > 0) {
+            pickPlanTable.getColumnModel().getColumn(3).setHeaderValue("");
+        }
+
+        pickPlanCancel.setText("取消更改");
+        pickPlanCancel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pickPlanCancelMouseClicked(evt);
+            }
+        });
+
+        pickPlanConfirm.setText("确认更改");
+        pickPlanConfirm.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pickPlanConfirmMouseClicked(evt);
+            }
+        });
+        pickPlanConfirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pickPlanConfirmActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pickPlanDialogLayout = new javax.swing.GroupLayout(pickPlanDialog.getContentPane());
+        pickPlanDialog.getContentPane().setLayout(pickPlanDialogLayout);
+        pickPlanDialogLayout.setHorizontalGroup(
+            pickPlanDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pickPlanScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
+            .addGroup(pickPlanDialogLayout.createSequentialGroup()
+                .addGap(186, 186, 186)
+                .addComponent(pickPlanCancel)
+                .addGap(60, 60, 60)
+                .addComponent(pickPlanConfirm)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pickPlanDialogLayout.setVerticalGroup(
+            pickPlanDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pickPlanDialogLayout.createSequentialGroup()
+                .addComponent(pickPlanScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pickPlanDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pickPlanCancel)
+                    .addComponent(pickPlanConfirm))
+                .addGap(0, 12, Short.MAX_VALUE))
+        );
+
+        checkStorageDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        checkStorageDialog.setAlwaysOnTop(true);
+        checkStorageDialog.setFocusableWindowState(false);
+        checkStorageDialog.setModal(true);
+        checkStorageDialog.setResizable(false);
+        checkStorageDialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                checkStorageDialogWindowClosed(evt);
+            }
+        });
+
+        checkStorageTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "商品编号", "商品名称", "商品数量"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        checkStorageScrollPane.setViewportView(checkStorageTable);
+
+        checkStorageCancel.setText("取消更改");
+        checkStorageCancel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                checkStorageCancelMouseClicked(evt);
+            }
+        });
+
+        checkStorageConfirm.setText("确认更改");
+        checkStorageConfirm.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                checkStorageConfirmMouseClicked(evt);
+            }
+        });
+        checkStorageConfirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkStorageConfirmActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout checkStorageDialogLayout = new javax.swing.GroupLayout(checkStorageDialog.getContentPane());
         checkStorageDialog.getContentPane().setLayout(checkStorageDialogLayout);
         checkStorageDialogLayout.setHorizontalGroup(
             checkStorageDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 607, Short.MAX_VALUE)
+            .addComponent(checkStorageScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
+            .addGroup(checkStorageDialogLayout.createSequentialGroup()
+                .addGap(186, 186, 186)
+                .addComponent(checkStorageCancel)
+                .addGap(60, 60, 60)
+                .addComponent(checkStorageConfirm)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         checkStorageDialogLayout.setVerticalGroup(
             checkStorageDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+            .addGroup(checkStorageDialogLayout.createSequentialGroup()
+                .addComponent(checkStorageScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(checkStorageDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(checkStorageCancel)
+                    .addComponent(checkStorageConfirm))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        passwordChangeDialog.setAlwaysOnTop(true);
+        passwordChangeDialog.setResizable(false);
+
+        oldPasswordTF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                oldPasswordTFActionPerformed(evt);
             }
         });
 
         passwordChangeConfirm.setText("确认");
+        passwordChangeConfirm.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                passwordChangeConfirmMouseClicked(evt);
+            }
+        });
 
         jLabel1.setText("旧密码");
 
@@ -368,9 +788,9 @@ public class ManagerHomePage extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(passwordChangeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(newPasswordTF, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(newPasswordAgainTF, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(oldPasswordTF, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37))
             .addGroup(passwordChangeDialogLayout.createSequentialGroup()
                 .addGap(131, 131, 131)
@@ -384,15 +804,15 @@ public class ManagerHomePage extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
                 .addGroup(passwordChangeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(oldPasswordTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(26, 26, 26)
                 .addGroup(passwordChangeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(newPasswordTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(26, 26, 26)
                 .addGroup(passwordChangeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(newPasswordAgainTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addComponent(passwordChangeConfirm)
@@ -400,7 +820,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setAlwaysOnTop(true);
+        setResizable(false);
 
         purchaser.setText("采购员管理");
         purchaser.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -433,9 +853,38 @@ public class ManagerHomePage extends javax.swing.JFrame {
             }
         });
 
-        passwordChange.setText("密码修改");
+        purchasePlan.setText("采购计划");
+        purchasePlan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                purchasePlanMouseClicked(evt);
+            }
+        });
 
-        jButton7.setText("清点库存");
+        pickPlan.setText("提货计划");
+        pickPlan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pickPlanMouseClicked(evt);
+            }
+        });
+
+        checkStorage.setText("清点库存");
+        checkStorage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                checkStorageMouseClicked(evt);
+            }
+        });
+        checkStorage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkStorageActionPerformed(evt);
+            }
+        });
+
+        passwordChange.setText("密码修改");
+        passwordChange.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                passwordChangeMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -443,12 +892,14 @@ public class ManagerHomePage extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(54, 54, 54)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(passwordChange, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(commodity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(picker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pickPlan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(purchaser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(picker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(commodity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(purchasePlan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(checkStorage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordChange, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(64, 64, 64))
         );
         layout.setVerticalGroup(
@@ -456,16 +907,25 @@ public class ManagerHomePage extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(purchaser)
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
                 .addComponent(picker)
-                .addGap(27, 27, 27)
+                .addGap(18, 18, 18)
                 .addComponent(commodity)
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
+                .addComponent(purchasePlan)
+                .addGap(18, 18, 18)
+                .addComponent(pickPlan)
+                .addGap(18, 18, 18)
+                .addComponent(checkStorage)
+                .addGap(18, 18, 18)
                 .addComponent(passwordChange)
-                .addGap(26, 26, 26)
-                .addComponent(jButton7)
-                .addContainerGap(90, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
+
+        getAccessibleContext().setAccessibleName("jFrame");
+
+        pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void purchaserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaserActionPerformed
@@ -474,6 +934,8 @@ public class ManagerHomePage extends javax.swing.JFrame {
 
     private void purchaserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchaserMouseClicked
         // TODO add your handling code here:
+        // 读取数据并在新窗口显示
+        showData(Purchaser.class,"Purchaser",purchaserDialog, purchaserTable,"purchaser");
     }//GEN-LAST:event_purchaserMouseClicked
 
     private void commodityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_commodityActionPerformed
@@ -482,15 +944,384 @@ public class ManagerHomePage extends javax.swing.JFrame {
 
     private void pickerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pickerMouseClicked
         // TODO add your handling code here:
+//        // 读取数据并在新窗口显示
+//        showData(pickerDialog,pickerTable);
     }//GEN-LAST:event_pickerMouseClicked
+
 
     private void commodityMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_commodityMouseClicked
         // TODO add your handling code here:
+        commodityDialog.pack();
+        commodityDialog.setVisible(true);
     }//GEN-LAST:event_commodityMouseClicked
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void oldPasswordTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oldPasswordTFActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_oldPasswordTFActionPerformed
+
+    private void purchaserCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchaserCancelMouseClicked
+        // TODO add your handling code here:
+        showData(Purchaser.class,"Purchaser",purchaserDialog, purchaserTable,"purchaser");
+
+    }//GEN-LAST:event_purchaserCancelMouseClicked
+
+    private <T> void showData(Class<T> c, String className, JDialog dialog, JTable table,String tableName) {
+        try {
+            String sql = "select * from " + tableName;
+            //获取结果集
+            ResultSet rs = JDBC.getInstance().excuteQuery(sql,null);
+            //获取数据
+            List<T> dataList = getResultSetList(c, className, rs);
+            // 设置表格值
+            setTableValue(c, className, table, dataList);
+
+            purchaserDialog.repaint();
+            dialog.pack();
+            dialog.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private <T> void setTableValue(Class<T> c, String className, JTable table, List<T> dataList) {
+        for (int i = 0; i < dataList.size(); i++) {
+            for (int j = 0; j < table.getColumnCount(); j++) {
+                if(className.equals("Purchaser")){
+                    table.setValueAt( ((Purchaser)dataList.get(i)).getData().get(j) , i, j);
+                }
+            }
+        }
+        for (int i = dataList.size(); i < table.getRowCount(); i++) {
+            for (int j = 0; j < table.getColumnCount(); j++) {
+                table.setValueAt("" , i, j);
+            }
+        }
+    }
+
+    private void purchaserConfirmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchaserConfirmMouseClicked
+        // TODO add your handling code here:
+        List<String> columnName = new ArrayList<String>();
+        columnName.add("purchaser_id");
+        columnName.add("purchaser_passwd");
+        columnName.add("purchaser_name");
+        columnName.add("purchaser_sex");
+        columnName.add("purchaser_tel");
+
+        // 数据为int类型的下标志
+        int[] integerIndex = new int[1];
+        integerIndex[0] = 1;
+        confirm(Purchaser.class,"Purchaser", purchaserDialog, purchaserTable,"purchaser",columnName,1,integerIndex);
+    }//GEN-LAST:event_purchaserConfirmMouseClicked
+
+    private <T> void confirm(Class<T> c, String className, JDialog dialog, JTable table, String tableName, List<String> columnName, int primaryKeyNum, int[] integerIndex) {
+        // 获取表格数据
+        int rowCount = table.getRowCount();
+        int columnCount = table.getColumnCount();
+        //取出所有主键
+        List<String> PK = getPK(rowCount,primaryKeyNum, table);
+        //判断主键是否重复
+        if(isPkRepeat(PK)){
+            return;
+        }
+        // 取出所有有效数据
+        List<String[]> data = getTableData(rowCount, columnCount, table);
+        // 验证数据合法性
+        if (!isDataValid(data, integerIndex)){
+            JOptionPane.showMessageDialog(null,"数据类型错误，请检查重新输入","",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // 清空数据库
+        String sql = "delete from " + tableName;
+        JDBC.getInstance().excuteUpdate(sql,null);
+
+        // 重构数据
+        List<String> types = new ArrayList<String>();
+        setTypesList(integerIndex, columnCount, types);
+        List<List<Data>> newData = cleanData(data, types);
+
+        // 重新插入数据
+        sql = insertSqlConstruct(tableName, columnName);
+//      sql = "INSERT INTO purchaser (`purchaser_id`, `purchaser_passwd`, `purchaser_name`, `purchaser_sex`, `purchaser_tel`) VALUES (?,?,?,?,?);";
+        for (int i = 0; i < newData.size(); i++) {
+            JDBC.getInstance().excuteUpdate(sql,newData.get(i));
+        }
+        JOptionPane.showMessageDialog(null,"保存成功！","提示",JOptionPane.INFORMATION_MESSAGE);
+        try {
+            showData(c,className, dialog,table,tableName);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void setTypesList(int[] integerIndex, int columnCount, List<String> types) {
+        for (int i = 0; i < columnCount; i++) {
+            boolean isString = true;
+            for (int j = 0; j < integerIndex.length; j++) {
+                if(i == integerIndex[j]-1){
+                    isString = false;
+                }
+            }
+            if(isString){
+                types.add("String");
+            } else {
+                types.add("Integer");
+            }
+        }
+    }
+
+    private String insertSqlConstruct(String tableName, List<String> columnName) {
+        String sql;
+        sql = "INSERT INTO " + tableName + " (";
+        for (int i = 0; i < columnName.size(); i++) {
+            if(i < columnName.size()-1) {
+                sql = sql + "'" + columnName.get(i) + "', ";
+            } else {
+                sql = sql + "'" + columnName.get(i) + "')";
+            }
+        }
+        sql = sql + " VALUES (";
+        for (int i = 0; i < columnName.size(); i++) {
+            if(i < columnName.size()-1){
+                sql = sql + "?,";
+            }else {
+                sql = sql + "?);";
+            }
+        }
+        return sql;
+    }
+
+    private boolean isDataValid(List<String[]> data, int[] index) {
+        for (int i = 0; i < data.size(); i++) {
+            String[] tmp = data.get(i);
+            try{
+                for (int j = 0; j < index.length; j++) {
+                    if(tmp[index[j]-1].equals("")){
+                        continue;
+                    }
+                    Integer.parseInt(tmp[index[j]-1]);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private List<List<Data>> cleanData(List<String[]> data, List<String> types) {
+        List<List<Data>>newData = new ArrayList<List<Data>>();
+        for (int i = 0; i < data.size(); i++) {
+            // 创建Data数组
+            List<Data> aData = new ArrayList<Data>();
+            // 构建Data数组
+            for (int j = 0; j < data.get(i).length; j++) {
+                aData.add(new Data(types.get(j),data.get(i)[j]));
+            }
+            // 添加
+            newData.add(aData);
+        }
+        return newData;
+    }
+
+    private static List<String[]> getTableData(int rowCount, int columnCount, JTable purchaserTable) {
+        List<String[]> data = new ArrayList<String[]>();
+
+        for (int i = 0; i < rowCount; i++) {
+            int count = 0;
+            for (int j = 0; j < columnCount; j++) {
+                if(purchaserTable.getValueAt(i,j)==null){
+                    count++;
+                }
+            }
+            // 全为Null
+            if(count==columnCount){
+                continue;
+            }
+            // 添加数据
+            String[] tmp = new String[columnCount];
+            for (int j = 0; j < columnCount; j++) {
+                tmp[j] = (String)purchaserTable.getValueAt(i,j);
+            }
+            data.add(tmp);
+        }
+        return data;
+    }
+
+    private boolean isPkRepeat(List<String> mainKey) {
+        boolean isRepeat = false;
+        Set<String> set = new HashSet<String>();
+        for (int i = 0; i < mainKey.size(); i++) {
+            if(mainKey.get(i).equals("") || mainKey.get(i) == null){
+                continue;
+            }
+            if(set.add(mainKey.get(i)) == false){
+                JOptionPane.showMessageDialog(null, "主键重复，无法进行插入，请检查并修改数据", "警告", JOptionPane.ERROR_MESSAGE);
+                isRepeat = true;
+            }
+        }
+        return isRepeat;
+    }
+
+    private static List<String> getPK(int rowCount, int PKNum, JTable purchaserTable) {
+        List<String> PK =  new ArrayList<String>();
+        for (int i = 0; i < rowCount; i++) {
+            boolean isNull = false;
+            for (int j = 0; j < PKNum; j++) {
+                if(purchaserTable.getValueAt(i,j) == null){
+                    isNull = true;
+                }
+            }
+            // 有空数据，跳过本次循环
+            if(isNull){
+                continue;
+            }
+
+            // 连接主键称一个字符串
+            String tmp = "";
+            for (int j = 0; j < PKNum; j++) {
+                tmp = tmp.concat((String)purchaserTable.getValueAt(i,j));
+            }
+            PK.add(tmp);
+        }
+        return PK;
+    }
+
+    private <T> List<T> getResultSetList(Class<T> c, String className,ResultSet rs) throws SQLException {
+        List<T> list = new ArrayList<T>();
+        if(className.equals("Purchaser")) {
+            while (rs.next()) {
+                String id = String.valueOf(rs.getInt(1));
+                String password = rs.getString(2);
+                String name = rs.getString(3);
+                String sex = rs.getString(4);
+                String tel = rs.getString(5);
+                list.add((T)new Purchaser(id, password, name, sex, tel));
+            }
+        }
+        return list;
+    }
+
+    private void purchaserConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaserConfirmActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_purchaserConfirmActionPerformed
+
+    private void purchaserDialogWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_purchaserDialogWindowClosed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_purchaserDialogWindowClosed
+
+    private void pickerCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pickerCancelMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pickerCancelMouseClicked
+
+    private void pickerConfirmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pickerConfirmMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pickerConfirmMouseClicked
+
+    private void pickerConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pickerConfirmActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pickerConfirmActionPerformed
+
+    private void pickerDialogWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_pickerDialogWindowClosed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pickerDialogWindowClosed
+
+    private void commodityCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_commodityCancelMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_commodityCancelMouseClicked
+
+    private void commodityConfirmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_commodityConfirmMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_commodityConfirmMouseClicked
+
+    private void commodityConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_commodityConfirmActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_commodityConfirmActionPerformed
+
+    private void commodityDialogWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_commodityDialogWindowClosed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_commodityDialogWindowClosed
+
+    private void passwordChangeConfirmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_passwordChangeConfirmMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordChangeConfirmMouseClicked
+
+    private void purchasePlanCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchasePlanCancelMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_purchasePlanCancelMouseClicked
+
+    private void purchasePlanConfirmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchasePlanConfirmMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_purchasePlanConfirmMouseClicked
+
+    private void purchasePlanConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchasePlanConfirmActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_purchasePlanConfirmActionPerformed
+
+    private void purchasePlanDialogWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_purchasePlanDialogWindowClosed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_purchasePlanDialogWindowClosed
+
+    private void pickPlanCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pickPlanCancelMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pickPlanCancelMouseClicked
+
+    private void pickPlanConfirmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pickPlanConfirmMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pickPlanConfirmMouseClicked
+
+    private void pickPlanConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pickPlanConfirmActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pickPlanConfirmActionPerformed
+
+    private void pickPlanDialogWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_pickPlanDialogWindowClosed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pickPlanDialogWindowClosed
+
+    private void passwordChangeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_passwordChangeMouseClicked
+        // TODO add your handling code here:
+        passwordChangeDialog.pack();
+        passwordChangeDialog.setVisible(true);
+    }//GEN-LAST:event_passwordChangeMouseClicked
+
+    private void checkStorageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkStorageMouseClicked
+        // TODO add your handling code here:
+        checkStorageDialog.pack();
+        checkStorageDialog.setVisible(true);
+    }//GEN-LAST:event_checkStorageMouseClicked
+
+    private void pickPlanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pickPlanMouseClicked
+        // TODO add your handling code here:
+        pickPlanDialog.pack();
+        pickPlanDialog.setVisible(true);
+    }//GEN-LAST:event_pickPlanMouseClicked
+
+    private void purchasePlanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchasePlanMouseClicked
+        // TODO add your handling code here:
+        purchasePlanDialog.pack();
+        purchasePlanDialog.setVisible(true);
+    }//GEN-LAST:event_purchasePlanMouseClicked
+
+    private void checkStorageCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkStorageCancelMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkStorageCancelMouseClicked
+
+    private void checkStorageConfirmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkStorageConfirmMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkStorageConfirmMouseClicked
+
+    private void checkStorageConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkStorageConfirmActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkStorageConfirmActionPerformed
+
+    private void checkStorageDialogWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_checkStorageDialogWindowClosed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkStorageDialogWindowClosed
+
+    private void checkStorageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkStorageActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkStorageActionPerformed
 
     /**
      * @param args the command line arguments
@@ -531,39 +1362,53 @@ public class ManagerHomePage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton checkStorage;
+    private javax.swing.JButton checkStorageCancel;
+    private javax.swing.JButton checkStorageConfirm;
     private javax.swing.JDialog checkStorageDialog;
+    private javax.swing.JScrollPane checkStorageScrollPane;
+    private javax.swing.JTable checkStorageTable;
     private javax.swing.JButton commodity;
+    private javax.swing.JButton commodityCancel;
+    private javax.swing.JButton commodityConfirm;
     private javax.swing.JDialog commodityDialog;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
+    private javax.swing.JScrollPane commodityScrollPane;
+    private javax.swing.JTable commodityTable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField newPasswordAgainTF;
+    private javax.swing.JTextField newPasswordTF;
+    private javax.swing.JTextField oldPasswordTF;
     private javax.swing.JButton passwordChange;
     private javax.swing.JButton passwordChangeConfirm;
     private javax.swing.JDialog passwordChangeDialog;
+    private javax.swing.JButton pickPlan;
+    private javax.swing.JButton pickPlanCancel;
+    private javax.swing.JButton pickPlanConfirm;
+    private javax.swing.JDialog pickPlanDialog;
+    private javax.swing.JScrollPane pickPlanScrollPane;
+    private javax.swing.JTable pickPlanTable;
     private javax.swing.JButton picker;
+    private javax.swing.JButton pickerCancel;
+    private javax.swing.JButton pickerConfirm;
     private javax.swing.JDialog pickerDialog;
+    private javax.swing.JScrollPane pickerScrollPane;
+    private javax.swing.JTable pickerTable;
+    private javax.swing.JButton purchasePlan;
+    private javax.swing.JButton purchasePlanCancel;
+    private javax.swing.JButton purchasePlanConfirm;
+    private javax.swing.JDialog purchasePlanDialog;
+    private javax.swing.JScrollPane purchasePlanScrollPane;
+    private javax.swing.JTable purchasePlanTable;
     private javax.swing.JButton purchaser;
+    private javax.swing.JButton purchaserCancel;
+    private javax.swing.JButton purchaserConfirm;
     private javax.swing.JDialog purchaserDialog;
+    private javax.swing.JScrollPane purchaserScrollPane;
+    private javax.swing.JTable purchaserTable;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -5,11 +5,14 @@
  */
 package logisticsui;
 
+import util.Data;
 import util.JDBC;
 
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -192,46 +195,63 @@ public class SignIn extends javax.swing.JFrame {
 
     private void signinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signinMouseClicked
         // TODO add your handling code here:
-        String[] info = new String[3];
-        info[0] = String.valueOf(option.getSelectedItem());
-        info[1] = username.getText();
-        info[2] = password.getText();
-        
-        // 判断用户类型
-        String userType = info[0] = String.valueOf(option.getSelectedItem());
         // 初始化JDBC
         JDBC jdbc = JDBC.getInstance();
 
+        // 获取用户类型
+        String userType = String.valueOf(option.getSelectedItem());
         // 根据登录用户类型验证用户名以及密码进行登陆
-        // 登陆后关闭打开新界面
         if(userType.equals("管理员")){
-            String sql = "select manager_passwd from manager where manager_username = 'admin'";
-            ResultSet rs = jdbc.excuteQuery(sql,null);
-
-            // 用户名错误弹出提示框
+            // 用户名错误弹出提示框（管理员用户名为admin）
             if(!username.getText().equals("admin")){
-                tipDialog.pack();
-                tipDialog.setVisible(true);
+                tipDialogPop();
                 return;
-            } else {
-                try {
-                    rs.next();
+            }
+            try {
+                // 构造sql语句
+                String sql = "select manager_passwd from manager where manager_username = 'admin'";
+                // 获取结果集
+                ResultSet rs = jdbc.excuteQuery(sql,null);
+                if(rs.next()) {
                     String pw = rs.getString(1);
                     String inputedPW = password.getText();
-                    if(!pw.equals(inputedPW)){
-                        tipDialog.pack();
-                        tipDialog.setVisible(true);
+                    if (!pw.equals(inputedPW)) {
+                        tipDialogPop();
                         return;
                     }
-                } catch (SQLException e) {
-                    e.printStackTrace();
                 }
+                // 验证成功，登陆界面
+                ManagerHomePage managerHomePage = new ManagerHomePage();
+                managerHomePage.setVisible(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            }
+        } else if(userType.equals("采购员")){
+            //构建sql语句，以及参数
+            String sql = "select * from picker where picker_id = ?";
+            List<Data> list = new ArrayList<Data>();
+            list.add(new Data("Integer",username.getText()));
+
+            try {
+                //获取结果集
+                ResultSet rs = jdbc.excuteQuery(sql,list);
+                if(rs.next()){
+                    String pw = rs.getString(2);
+                    String inputedPW = password.getText();
+                    if(!pw.equals(inputedPW)){
+                        tipDialogPop();
+                        return;
+                    }
+                }else{
+                    tipDialogPop();
+                    return;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
 
-            // 验证成功，登陆界面
-            ManagerHomePage managerHomePage = new ManagerHomePage();
-            managerHomePage.setVisible(true);
-        } else if(userType.equals("采购员")){
+
             PurchaserHomePage purchaserHomePage = new PurchaserHomePage();
             purchaserHomePage.setVisible(true);
         } else if(userType.equals("提货员")){
@@ -242,6 +262,11 @@ public class SignIn extends javax.swing.JFrame {
         // 关闭当前窗口
         this.dispose();
     }//GEN-LAST:event_signinMouseClicked
+
+    private void tipDialogPop() {
+        tipDialog.pack();
+        tipDialog.setVisible(true);
+    }
 
     private void signinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signinActionPerformed
         // TODO add your handling code here:
