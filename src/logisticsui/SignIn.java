@@ -5,7 +5,11 @@
  */
 package logisticsui;
 
+import util.JDBC;
+
 import java.awt.Color;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -195,10 +199,36 @@ public class SignIn extends javax.swing.JFrame {
         
         // 判断用户类型
         String userType = info[0] = String.valueOf(option.getSelectedItem());
-        
+        // 初始化JDBC
+        JDBC jdbc = JDBC.getInstance();
+
         // 根据登录用户类型验证用户名以及密码进行登陆
         // 登陆后关闭打开新界面
         if(userType.equals("管理员")){
+            String sql = "select manager_passwd from manager where manager_username = 'admin'";
+            ResultSet rs = jdbc.excuteQuery(sql,null);
+
+            // 用户名错误弹出提示框
+            if(!username.getText().equals("admin")){
+                tipDialog.pack();
+                tipDialog.setVisible(true);
+                return;
+            } else {
+                try {
+                    rs.next();
+                    String pw = rs.getString(1);
+                    String inputedPW = password.getText();
+                    if(!pw.equals(inputedPW)){
+                        tipDialog.pack();
+                        tipDialog.setVisible(true);
+                        return;
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            // 验证成功，登陆界面
             ManagerHomePage managerHomePage = new ManagerHomePage();
             managerHomePage.setVisible(true);
         } else if(userType.equals("采购员")){
@@ -207,13 +237,10 @@ public class SignIn extends javax.swing.JFrame {
         } else if(userType.equals("提货员")){
             PickerHomePage pickerHomePage = new PickerHomePage();
             pickerHomePage.setVisible(true);
-        } else {
-            tipDialog.pack();
-            tipDialog.setVisible(true);
         }
         
-//        // 关闭当前窗口
-//        this.dispose();
+        // 关闭当前窗口
+        this.dispose();
     }//GEN-LAST:event_signinMouseClicked
 
     private void signinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signinActionPerformed

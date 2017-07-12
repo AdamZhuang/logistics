@@ -1,6 +1,7 @@
 package util;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public class JDBC {
     }
 
     // 初始化
-    public void init() {
+    private void init() {
         try {
             Driver driver = new com.mysql.jdbc.Driver();
             DriverManager.registerDriver(driver);
@@ -52,18 +53,21 @@ public class JDBC {
     }
 
     // 查询数据
-    public static ResultSet excuteQuery(String sql, List<Data> info) {
+    public ResultSet excuteQuery(String sql, List<Data> info) {
         try {
             pst = conn.prepareStatement(sql);
 
-            for (int i = 0; i < info.size(); i++) {
-                if (info.get(i).getType().equals("Integer")) {
-                    pst.setInt(i, Integer.parseInt(info.get(i).getInfo()));
-                } else if (info.get(i).getType().equals("String")) {
-                    pst.setString(i, info.get(i).getInfo());
+            if(info != null) {
+                for (int i = 0; i < info.size(); i++) {
+                    if (info.get(i).getType().equals("Integer")) {
+                        pst.setInt(i, Integer.parseInt(info.get(i).getInfo()));
+                    } else if (info.get(i).getType().equals("String")) {
+                        pst.setString(i, info.get(i).getInfo());
+                    }
                 }
             }
             rs = pst.executeQuery();
+            return rs;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -71,7 +75,7 @@ public class JDBC {
     }
 
     // 更新数据
-    public static int excuteUpdate(String sql, List<Data> info) {
+    public int excuteUpdate(String sql, List<Data> info) {
         boolean isdone = false;
         try {
             // 构造prepared
@@ -85,7 +89,7 @@ public class JDBC {
         return 0;
     }
 
-    public static void dataprocess(String sql, List<Data> info) {
+    public void dataprocess(String sql, List<Data> info) {
         for (int i = 0; i < info.size(); i++) {
             if (info.get(i).getType().equals("Integer")) {
                 try {
