@@ -38,10 +38,19 @@ public class SignIn extends javax.swing.JFrame {
         option = new javax.swing.JComboBox<>();
 
         tipDialog.setTitle("警告");
+        tipDialog.setAlwaysOnTop(true);
+        tipDialog.setIconImage(null);
+        tipDialog.setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
+        tipDialog.setResizable(false);
 
         tip.setText("密码错误");
 
         confirm.setText("确定");
+        confirm.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                confirmMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout tipDialogLayout = new javax.swing.GroupLayout(tipDialog.getContentPane());
         tipDialog.getContentPane().setLayout(tipDialogLayout);
@@ -111,7 +120,7 @@ public class SignIn extends javax.swing.JFrame {
             }
         });
 
-        option.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "admin", "仓库管理员", "采购员", "提货员" }));
+        option.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "管理员", "采购员", "提货员" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -189,10 +198,7 @@ public class SignIn extends javax.swing.JFrame {
         
         // 根据登录用户类型验证用户名以及密码进行登陆
         // 登陆后关闭打开新界面
-        if(userType.equals("admvin")){
-            AdminHomePage adminHomePage = new AdminHomePage();
-            adminHomePage.setVisible(true);
-        } else if(userType.equals("仓库管理员")){
+        if(userType.equals("管理员")){
             ManagerHomePage managerHomePage = new ManagerHomePage();
             managerHomePage.setVisible(true);
         } else if(userType.equals("采购员")){
@@ -213,6 +219,11 @@ public class SignIn extends javax.swing.JFrame {
     private void signinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signinActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_signinActionPerformed
+
+    private void confirmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirmMouseClicked
+        // TODO add your handling code here:
+        tipDialog.dispose();
+    }//GEN-LAST:event_confirmMouseClicked
 
     /**
      * @param args the command line arguments

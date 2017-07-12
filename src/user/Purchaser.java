@@ -4,7 +4,7 @@ package user;
  * Created by 向光性 on 2017/7/11.
  */
 public class Purchaser {
-    private String name = "purchaser";
+    private String name;
     private String password;
     private int purchaser_id;
     private String purchaser_name;

@@ -4,7 +4,7 @@ package user;
  * Created by Alan on 2017/7/11.
  */
 public class Manager {
-    private String name = "manager";
+    private String name;
     private String password;
     private int manager_id;
     private String manager_name;
