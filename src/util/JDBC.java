@@ -1,5 +1,6 @@
 package util;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,16 +57,7 @@ public class JDBC {
     public ResultSet excuteQuery(String sql, List<Data> info) {
         try {
             pst = conn.prepareStatement(sql);
-
-            if(info != null) {
-                for (int i = 0; i < info.size(); i++) {
-                    if (info.get(i).getType().equals("Integer")) {
-                        pst.setInt(i, Integer.parseInt(info.get(i).getInfo()));
-                    } else if (info.get(i).getType().equals("String")) {
-                        pst.setString(i, info.get(i).getInfo());
-                    }
-                }
-            }
+            dataprocess(sql,info);
             rs = pst.executeQuery();
             return rs;
         } catch (Exception e) {
@@ -90,17 +82,25 @@ public class JDBC {
     }
 
     public void dataprocess(String sql, List<Data> info) {
+        if(info == null){
+            return;
+        }
         for (int i = 0; i < info.size(); i++) {
             if (info.get(i).getType().equals("Integer")) {
                 try {
-                    pst.setInt(i, Integer.parseInt(info.get(i).getInfo()));
-
+                    pst.setInt(i+1, Integer.parseInt(info.get(i).getInfo()));
                 } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (NumberFormatException e){
                     e.printStackTrace();
                 }
             } else if (info.get(i).getType().equals("String")) {
                 try {
-                    pst.setString(i, info.get(i).getInfo());
+                    String tmp = info.get(i).getInfo();
+//                    if(tmp.equals("")){
+//                        tmp = " ";
+//                    }
+                    pst.setString(i+1, tmp);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
