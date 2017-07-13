@@ -6,6 +6,7 @@
 
 package logisticsui;
 
+import jdk.nashorn.internal.scripts.JD;
 import module.ManagerSystem;
 import object.*;
 import util.Data;
@@ -701,49 +702,31 @@ public class ManagerHomePage extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        checkStorageTable.setEnabled(false);
         checkStorageScrollPane.setViewportView(checkStorageTable);
-
-        checkStorageCancel.setText("取消更改");
-        checkStorageCancel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                checkStorageCancelMouseClicked(evt);
-            }
-        });
-
-        checkStorageConfirm.setText("确认更改");
-        checkStorageConfirm.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                checkStorageConfirmMouseClicked(evt);
-            }
-        });
-        checkStorageConfirm.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkStorageConfirmActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout checkStorageDialogLayout = new javax.swing.GroupLayout(checkStorageDialog.getContentPane());
         checkStorageDialog.getContentPane().setLayout(checkStorageDialogLayout);
         checkStorageDialogLayout.setHorizontalGroup(
             checkStorageDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(checkStorageScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
-            .addGroup(checkStorageDialogLayout.createSequentialGroup()
-                .addGap(186, 186, 186)
-                .addComponent(checkStorageCancel)
-                .addGap(60, 60, 60)
-                .addComponent(checkStorageConfirm)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+//            .addGroup(checkStorageDialogLayout.createSequentialGroup()
+//                .addGap(186, 186, 186)
+//                .addComponent(checkStorageCancel)
+//                .addGap(60, 60, 60)
+//                .addComponent(checkStorageConfirm)
+//                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         checkStorageDialogLayout.setVerticalGroup(
             checkStorageDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(checkStorageDialogLayout.createSequentialGroup()
                 .addComponent(checkStorageScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(checkStorageDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(checkStorageCancel)
-                    .addComponent(checkStorageConfirm))
-                .addGap(0, 12, Short.MAX_VALUE))
-        );
+//                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+//                .addGroup(checkStorageDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+//                    .addComponent(checkStorageCancel)
+//                    .addComponent(checkStorageConfirm))
+//                .addGap(0, 12, Short.MAX_VALUE))
+        ));
 
         passwordChangeDialog.setAlwaysOnTop(true);
         passwordChangeDialog.setResizable(false);
@@ -870,11 +853,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
                 checkStorageMouseClicked(evt);
             }
         });
-        checkStorage.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkStorageActionPerformed(evt);
-            }
-        });
+
 
         passwordChange.setText("密码修改");
         passwordChange.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1037,6 +1016,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
 
     private void passwordChangeConfirmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_passwordChangeConfirmMouseClicked
         // TODO add your handling code here:
+        ManagerSystem.changePassword(passwordChangeDialog,oldPasswordTF,newPasswordTF,newPasswordAgainTF);
     }//GEN-LAST:event_passwordChangeConfirmMouseClicked
 
     private void purchasePlanCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchasePlanCancelMouseClicked
@@ -1105,14 +1085,12 @@ public class ManagerHomePage extends javax.swing.JFrame {
 
     private void passwordChangeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_passwordChangeMouseClicked
         // TODO add your handling code here:
-        passwordChangeDialog.pack();
-        passwordChangeDialog.setVisible(true);
+        ManagerSystem.showPasswordChanngeDialog(passwordChangeDialog,oldPasswordTF,newPasswordTF,newPasswordAgainTF);
     }//GEN-LAST:event_passwordChangeMouseClicked
 
     private void checkStorageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkStorageMouseClicked
         // TODO add your handling code here:
-        checkStorageDialog.pack();
-        checkStorageDialog.setVisible(true);
+        ManagerSystem.showData(Repository.class,"Repository",checkStorageDialog,checkStorageTable,"commodity_detail");
     }//GEN-LAST:event_checkStorageMouseClicked
 
     private void pickPlanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pickPlanMouseClicked

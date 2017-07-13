@@ -165,8 +165,8 @@ public class ManagerSystem {
                 String purchaserId = String.valueOf(rs.getInt(1));
                 String commodityId = String.valueOf(rs.getInt(2));
                 String purchaseDate = rs.getString(3);
-                String quantity = String.valueOf(rs.getInt(2));
-                String isdone = String.valueOf(rs.getInt(2));
+                String quantity = String.valueOf(rs.getInt(4));
+                String isdone = String.valueOf(rs.getInt(5));
                 list.add((T)new PurchaseTable(purchaserId,commodityId, purchaseDate, quantity, isdone));
             }
         } else if(className.equals("PickTable")){
@@ -174,9 +174,16 @@ public class ManagerSystem {
                 String purchaserId = String.valueOf(rs.getInt(1));
                 String commodityId = String.valueOf(rs.getInt(2));
                 String purchaseDate = rs.getString(3);
-                String quantity = String.valueOf(rs.getInt(2));
-                String isdone = String.valueOf(rs.getInt(2));
+                String quantity = String.valueOf(rs.getInt(4));
+                String isdone = String.valueOf(rs.getInt(5));
                 list.add((T)new PickTable(purchaserId,commodityId, purchaseDate, quantity, isdone));
+            }
+        } else if(className.equals("Repository")){
+            while (rs.next()) {
+                String commodityId = String.valueOf(rs.getInt(1));
+                String commodityName = rs.getString(2);
+                String commodityQuantity = String.valueOf(rs.getInt(3));
+                list.add((T)new Repository(commodityId, commodityName, commodityQuantity));
             }
         }
         return list;
@@ -214,9 +221,12 @@ public class ManagerSystem {
                     table.setValueAt( ((PurchaseTable)dataList.get(i)).getData().get(j) , i, j);
                 } else if(className.equals("PickTable")){
                     table.setValueAt( ((PickTable)dataList.get(i)).getData().get(j) , i, j);
+                } else if(className.equals("Repository")){
+                    table.setValueAt( ((Repository)dataList.get(i)).getData().get(j) , i, j);
                 }
             }
         }
+
         for (int i = dataList.size(); i < table.getRowCount(); i++) {
             for (int j = 0; j < table.getColumnCount(); j++) {
                 table.setValueAt("" , i, j);
@@ -282,6 +292,53 @@ public class ManagerSystem {
             } else {
                 types.add("Integer");
             }
+        }
+    }
+
+
+    public static void showPasswordChanngeDialog(JDialog passwordChangeDialog, JTextField oldPasswordTF,JTextField newPasswordTF,JTextField newPasswordAgainTF){
+        passwordChangeDialog.pack();
+        passwordChangeDialog.setVisible(true);
+        //清空数据
+        oldPasswordTF.setText("");
+        newPasswordTF.setText("");
+        newPasswordAgainTF.setText("");
+    }
+
+    public static void changePassword(JDialog passwordChangeDialog, JTextField oldPasswordTF,JTextField newPasswordTF,JTextField newPasswordAgainTF){
+        try {
+            //判断密码是否输入一致
+            String newPassword1 = newPasswordTF.getText();
+            String newPassword2 = newPasswordAgainTF.getText();
+            if(!newPassword1.equals(newPassword2)){
+                JOptionPane.showMessageDialog(null,"两次输入密码不一致","警告",JOptionPane.ERROR_MESSAGE);
+            }
+
+            //获取用户密码以及输入密码
+            String sql = "select manager_passwd from manager";
+            ResultSet rs = JDBC.getInstance().excuteQuery(sql,null);
+            String realPassword = null;
+            if(rs.next()){
+                realPassword = rs.getString(1);
+            }
+            String inputedPassword = oldPasswordTF.getText();
+
+            //判断密码正确与否
+            if(!inputedPassword.equals(realPassword)){
+                JOptionPane.showMessageDialog(null,"密码错误，请重新输入旧密码","警告",JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+
+            //写入密码
+            sql = "UPDATE `logistics`.`manager` SET `manager_passwd`= ? WHERE `manager_username`='admin'";
+            List<Data> data = new ArrayList<Data>();
+            data.add(new Data("String",newPassword1));
+            JDBC.getInstance().excuteUpdate(sql,data);
+            JOptionPane.showMessageDialog(null,"修改成功！","提示",JOptionPane.INFORMATION_MESSAGE);
+            passwordChangeDialog.dispose();
+        }catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
