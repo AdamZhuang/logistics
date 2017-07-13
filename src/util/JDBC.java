@@ -1,8 +1,6 @@
 package util;
 
-import javax.swing.*;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,7 +55,7 @@ public class JDBC {
     public ResultSet excuteQuery(String sql, List<Data> info) {
         try {
             pst = conn.prepareStatement(sql);
-            dataprocess(sql,info);
+            dataprocess(info);
             rs = pst.executeQuery();
             return rs;
         } catch (Exception e) {
@@ -73,7 +71,7 @@ public class JDBC {
             // 构造prepared
             pst = conn.prepareStatement(sql);
             // 设置未知参数
-            dataprocess(sql, info);
+            dataprocess(info);
             return pst.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,7 +79,7 @@ public class JDBC {
         return 0;
     }
 
-    public void dataprocess(String sql, List<Data> info) {
+    public void dataprocess(List<Data> info) {
         if(info == null){
             return;
         }
@@ -97,14 +95,16 @@ public class JDBC {
             } else if (info.get(i).getType().equals("String")) {
                 try {
                     String tmp = info.get(i).getInfo();
-//                    if(tmp.equals("")){
-//                        tmp = " ";
-//                    }
                     pst.setString(i+1, tmp);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
         }
+    }
+
+    public static void main(String[] args){
+//        JDBC.getInstance().excuteUpdate("INSERT INTO 'logistics'.'purchaser' ('purchaser_id', 'purchaser_passwd', 'purchaser_name', 'purchaser_sex', 'purchaser_tel') VALUES (1,'','','','');",null);
+        JDBC.getInstance().excuteUpdate("INSERT INTO `logistics`.`purchaser` (`purchaser_id`, `purchaser_passwd`, `purchaser_name`, `purchaser_sex`, `purchaser_tel`) VALUES (1, ' ', ' ', ' ', ' ');",null);
     }
 }

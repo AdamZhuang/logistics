@@ -6,12 +6,12 @@
 
 package logisticsui;
 
-import user.Purchaser;
+import module.ManagerSystem;
+import object.*;
 import util.Data;
 import util.JDBC;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -195,7 +195,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
 
         pickerDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         pickerDialog.setAlwaysOnTop(true);
-        pickerDialog.setFocusableWindowState(false);
+        pickerDialog.setFocusableWindowState(true);
         pickerDialog.setModal(true);
         pickerDialog.setResizable(false);
         pickerDialog.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -305,7 +305,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
 
         commodityDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         commodityDialog.setAlwaysOnTop(true);
-        commodityDialog.setFocusableWindowState(false);
+        commodityDialog.setFocusableWindowState(true);
         commodityDialog.setModal(true);
         commodityDialog.setResizable(false);
         commodityDialog.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -415,7 +415,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
 
         purchasePlanDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         purchasePlanDialog.setAlwaysOnTop(true);
-        purchasePlanDialog.setFocusableWindowState(false);
+        purchasePlanDialog.setFocusableWindowState(true);
         purchasePlanDialog.setModal(true);
         purchasePlanDialog.setResizable(false);
         purchasePlanDialog.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -426,53 +426,53 @@ public class ManagerHomePage extends javax.swing.JFrame {
 
         purchasePlanTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "采购者工号", "商品编号", "购买日期", "购买数量"
+                "采购者工号", "商品编号", "购买日期", "购买数量","0:未完成,1:完成"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -525,7 +525,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
 
         pickPlanDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         pickPlanDialog.setAlwaysOnTop(true);
-        pickPlanDialog.setFocusableWindowState(false);
+        pickPlanDialog.setFocusableWindowState(true);
         pickPlanDialog.setModal(true);
         pickPlanDialog.setResizable(false);
         pickPlanDialog.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -536,54 +536,54 @@ public class ManagerHomePage extends javax.swing.JFrame {
 
         pickPlanTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null},
+                {null, null, null, null,null}
             },
             new String [] {
-                "提货者工号", "商品编号", "提单时间", "提单数量"
+                "提货者工号", "商品编号", "提单时间", "提单数量","0:未完成,1:完成",
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class,java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -591,9 +591,6 @@ public class ManagerHomePage extends javax.swing.JFrame {
             }
         });
         pickPlanScrollPane.setViewportView(pickPlanTable);
-        if (pickPlanTable.getColumnModel().getColumnCount() > 0) {
-            pickPlanTable.getColumnModel().getColumn(3).setHeaderValue("");
-        }
 
         pickPlanCancel.setText("取消更改");
         pickPlanCancel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -935,7 +932,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
     private void purchaserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchaserMouseClicked
         // TODO add your handling code here:
         // 读取数据并在新窗口显示
-        showData(Purchaser.class,"Purchaser",purchaserDialog, purchaserTable,"purchaser");
+        ManagerSystem.showData(Purchaser.class,"Purchaser",purchaserDialog, purchaserTable,"purchaser");
     }//GEN-LAST:event_purchaserMouseClicked
 
     private void commodityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_commodityActionPerformed
@@ -944,16 +941,8 @@ public class ManagerHomePage extends javax.swing.JFrame {
 
     private void pickerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pickerMouseClicked
         // TODO add your handling code here:
-//        // 读取数据并在新窗口显示
-//        showData(pickerDialog,pickerTable);
+        ManagerSystem.showData(Picker.class,"Picker",pickerDialog,pickerTable,"picker");
     }//GEN-LAST:event_pickerMouseClicked
-
-
-    private void commodityMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_commodityMouseClicked
-        // TODO add your handling code here:
-        commodityDialog.pack();
-        commodityDialog.setVisible(true);
-    }//GEN-LAST:event_commodityMouseClicked
 
     private void oldPasswordTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oldPasswordTFActionPerformed
         // TODO add your handling code here:
@@ -961,247 +950,8 @@ public class ManagerHomePage extends javax.swing.JFrame {
 
     private void purchaserCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchaserCancelMouseClicked
         // TODO add your handling code here:
-        showData(Purchaser.class,"Purchaser",purchaserDialog, purchaserTable,"purchaser");
-
+        ManagerSystem.showData(Purchaser.class,"Purchaser",purchaserDialog, purchaserTable,"purchaser");
     }//GEN-LAST:event_purchaserCancelMouseClicked
-
-    private <T> void showData(Class<T> c, String className, JDialog dialog, JTable table,String tableName) {
-        try {
-            String sql = "select * from " + tableName;
-            //获取结果集
-            ResultSet rs = JDBC.getInstance().excuteQuery(sql,null);
-            //获取数据
-            List<T> dataList = getResultSetList(c, className, rs);
-            // 设置表格值
-            setTableValue(c, className, table, dataList);
-
-            purchaserDialog.repaint();
-            dialog.pack();
-            dialog.setVisible(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private <T> void setTableValue(Class<T> c, String className, JTable table, List<T> dataList) {
-        for (int i = 0; i < dataList.size(); i++) {
-            for (int j = 0; j < table.getColumnCount(); j++) {
-                if(className.equals("Purchaser")){
-                    table.setValueAt( ((Purchaser)dataList.get(i)).getData().get(j) , i, j);
-                }
-            }
-        }
-        for (int i = dataList.size(); i < table.getRowCount(); i++) {
-            for (int j = 0; j < table.getColumnCount(); j++) {
-                table.setValueAt("" , i, j);
-            }
-        }
-    }
-
-    private void purchaserConfirmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchaserConfirmMouseClicked
-        // TODO add your handling code here:
-        List<String> columnName = new ArrayList<String>();
-        columnName.add("purchaser_id");
-        columnName.add("purchaser_passwd");
-        columnName.add("purchaser_name");
-        columnName.add("purchaser_sex");
-        columnName.add("purchaser_tel");
-
-        // 数据为int类型的下标志
-        int[] integerIndex = new int[1];
-        integerIndex[0] = 1;
-        confirm(Purchaser.class,"Purchaser", purchaserDialog, purchaserTable,"purchaser",columnName,1,integerIndex);
-    }//GEN-LAST:event_purchaserConfirmMouseClicked
-
-    private <T> void confirm(Class<T> c, String className, JDialog dialog, JTable table, String tableName, List<String> columnName, int primaryKeyNum, int[] integerIndex) {
-        // 获取表格数据
-        int rowCount = table.getRowCount();
-        int columnCount = table.getColumnCount();
-        //取出所有主键
-        List<String> PK = getPK(rowCount,primaryKeyNum, table);
-        //判断主键是否重复
-        if(isPkRepeat(PK)){
-            return;
-        }
-        // 取出所有有效数据
-        List<String[]> data = getTableData(rowCount, columnCount, table);
-        // 验证数据合法性
-        if (!isDataValid(data, integerIndex)){
-            JOptionPane.showMessageDialog(null,"数据类型错误，请检查重新输入","",JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // 清空数据库
-        String sql = "delete from " + tableName;
-        JDBC.getInstance().excuteUpdate(sql,null);
-
-        // 重构数据
-        List<String> types = new ArrayList<String>();
-        setTypesList(integerIndex, columnCount, types);
-        List<List<Data>> newData = cleanData(data, types);
-
-        // 重新插入数据
-        sql = insertSqlConstruct(tableName, columnName);
-//      sql = "INSERT INTO purchaser (`purchaser_id`, `purchaser_passwd`, `purchaser_name`, `purchaser_sex`, `purchaser_tel`) VALUES (?,?,?,?,?);";
-        for (int i = 0; i < newData.size(); i++) {
-            JDBC.getInstance().excuteUpdate(sql,newData.get(i));
-        }
-        JOptionPane.showMessageDialog(null,"保存成功！","提示",JOptionPane.INFORMATION_MESSAGE);
-        try {
-            showData(c,className, dialog,table,tableName);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    private void setTypesList(int[] integerIndex, int columnCount, List<String> types) {
-        for (int i = 0; i < columnCount; i++) {
-            boolean isString = true;
-            for (int j = 0; j < integerIndex.length; j++) {
-                if(i == integerIndex[j]-1){
-                    isString = false;
-                }
-            }
-            if(isString){
-                types.add("String");
-            } else {
-                types.add("Integer");
-            }
-        }
-    }
-
-    private String insertSqlConstruct(String tableName, List<String> columnName) {
-        String sql;
-        sql = "INSERT INTO " + tableName + " (";
-        for (int i = 0; i < columnName.size(); i++) {
-            if(i < columnName.size()-1) {
-                sql = sql + "'" + columnName.get(i) + "', ";
-            } else {
-                sql = sql + "'" + columnName.get(i) + "')";
-            }
-        }
-        sql = sql + " VALUES (";
-        for (int i = 0; i < columnName.size(); i++) {
-            if(i < columnName.size()-1){
-                sql = sql + "?,";
-            }else {
-                sql = sql + "?);";
-            }
-        }
-        return sql;
-    }
-
-    private boolean isDataValid(List<String[]> data, int[] index) {
-        for (int i = 0; i < data.size(); i++) {
-            String[] tmp = data.get(i);
-            try{
-                for (int j = 0; j < index.length; j++) {
-                    if(tmp[index[j]-1].equals("")){
-                        continue;
-                    }
-                    Integer.parseInt(tmp[index[j]-1]);
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private List<List<Data>> cleanData(List<String[]> data, List<String> types) {
-        List<List<Data>>newData = new ArrayList<List<Data>>();
-        for (int i = 0; i < data.size(); i++) {
-            // 创建Data数组
-            List<Data> aData = new ArrayList<Data>();
-            // 构建Data数组
-            for (int j = 0; j < data.get(i).length; j++) {
-                aData.add(new Data(types.get(j),data.get(i)[j]));
-            }
-            // 添加
-            newData.add(aData);
-        }
-        return newData;
-    }
-
-    private static List<String[]> getTableData(int rowCount, int columnCount, JTable purchaserTable) {
-        List<String[]> data = new ArrayList<String[]>();
-
-        for (int i = 0; i < rowCount; i++) {
-            int count = 0;
-            for (int j = 0; j < columnCount; j++) {
-                if(purchaserTable.getValueAt(i,j)==null){
-                    count++;
-                }
-            }
-            // 全为Null
-            if(count==columnCount){
-                continue;
-            }
-            // 添加数据
-            String[] tmp = new String[columnCount];
-            for (int j = 0; j < columnCount; j++) {
-                tmp[j] = (String)purchaserTable.getValueAt(i,j);
-            }
-            data.add(tmp);
-        }
-        return data;
-    }
-
-    private boolean isPkRepeat(List<String> mainKey) {
-        boolean isRepeat = false;
-        Set<String> set = new HashSet<String>();
-        for (int i = 0; i < mainKey.size(); i++) {
-            if(mainKey.get(i).equals("") || mainKey.get(i) == null){
-                continue;
-            }
-            if(set.add(mainKey.get(i)) == false){
-                JOptionPane.showMessageDialog(null, "主键重复，无法进行插入，请检查并修改数据", "警告", JOptionPane.ERROR_MESSAGE);
-                isRepeat = true;
-            }
-        }
-        return isRepeat;
-    }
-
-    private static List<String> getPK(int rowCount, int PKNum, JTable purchaserTable) {
-        List<String> PK =  new ArrayList<String>();
-        for (int i = 0; i < rowCount; i++) {
-            boolean isNull = false;
-            for (int j = 0; j < PKNum; j++) {
-                if(purchaserTable.getValueAt(i,j) == null){
-                    isNull = true;
-                }
-            }
-            // 有空数据，跳过本次循环
-            if(isNull){
-                continue;
-            }
-
-            // 连接主键称一个字符串
-            String tmp = "";
-            for (int j = 0; j < PKNum; j++) {
-                tmp = tmp.concat((String)purchaserTable.getValueAt(i,j));
-            }
-            PK.add(tmp);
-        }
-        return PK;
-    }
-
-    private <T> List<T> getResultSetList(Class<T> c, String className,ResultSet rs) throws SQLException {
-        List<T> list = new ArrayList<T>();
-        if(className.equals("Purchaser")) {
-            while (rs.next()) {
-                String id = String.valueOf(rs.getInt(1));
-                String password = rs.getString(2);
-                String name = rs.getString(3);
-                String sex = rs.getString(4);
-                String tel = rs.getString(5);
-                list.add((T)new Purchaser(id, password, name, sex, tel));
-            }
-        }
-        return list;
-    }
 
     private void purchaserConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaserConfirmActionPerformed
         // TODO add your handling code here:
@@ -1211,12 +961,39 @@ public class ManagerHomePage extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_purchaserDialogWindowClosed
 
+    private void purchaserConfirmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchaserConfirmMouseClicked
+        // TODO add your handling code here:
+        // 列名称
+        List<String> columnName = new ArrayList<String>();
+        columnName.add("purchaser_id");
+        columnName.add("purchaser_passwd");
+        columnName.add("purchaser_name");
+        columnName.add("purchaser_sex");
+        columnName.add("purchaser_tel");
+        // 数据为int类型的下标志
+        int[] integerIndex = new int[1];
+        integerIndex[0] = 1;
+        // 确认按钮的处理
+        ManagerSystem.confirm(Purchaser.class,"Purchaser", purchaserDialog, purchaserTable,"purchaser",columnName,1,integerIndex);
+    }//GEN-LAST:event_purchaserConfirmMouseClicked
+
     private void pickerCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pickerCancelMouseClicked
         // TODO add your handling code here:
+        ManagerSystem.showData(Picker.class,"Picker",pickerDialog,pickerTable,"picker");
     }//GEN-LAST:event_pickerCancelMouseClicked
 
     private void pickerConfirmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pickerConfirmMouseClicked
         // TODO add your handling code here:
+        List<String> columnName = new ArrayList<String>();
+        columnName.add("picker_id");
+        columnName.add("picker_passwd");
+        columnName.add("picker_name");
+        columnName.add("picker_sex");
+        columnName.add("picker_tel");
+        int[] integerIndex = new int[1];
+        integerIndex[0] = 1;
+        // 数据处理
+        ManagerSystem.confirm(Picker.class,"Picker",pickerDialog,pickerTable,"picker",columnName,1,integerIndex);
     }//GEN-LAST:event_pickerConfirmMouseClicked
 
     private void pickerConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pickerConfirmActionPerformed
@@ -1227,12 +1004,27 @@ public class ManagerHomePage extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_pickerDialogWindowClosed
 
+    private void commodityMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_commodityMouseClicked
+        // TODO add your handling code here:
+        ManagerSystem.showData(Commodity.class,"Commodity",commodityDialog,commodityTable,"commodity");
+    }//GEN-LAST:event_commodityMouseClicked
+
     private void commodityCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_commodityCancelMouseClicked
         // TODO add your handling code here:
+        ManagerSystem.showData(Commodity.class,"Commodity",commodityDialog,commodityTable,"commodity");
     }//GEN-LAST:event_commodityCancelMouseClicked
 
     private void commodityConfirmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_commodityConfirmMouseClicked
         // TODO add your handling code here:
+        List<String> columnName = new ArrayList<String>();
+        columnName.add("commodity_id");
+        columnName.add("commodity_name");
+        columnName.add("product_company");
+        int[] integerIndex = new int[1];
+        integerIndex[0] = 1;
+        // 数据处理
+        ManagerSystem.confirm(Commodity.class,"Commodity",commodityDialog,commodityTable,"commodity",columnName,1,integerIndex);
+
     }//GEN-LAST:event_commodityConfirmMouseClicked
 
     private void commodityConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_commodityConfirmActionPerformed
@@ -1249,10 +1041,25 @@ public class ManagerHomePage extends javax.swing.JFrame {
 
     private void purchasePlanCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchasePlanCancelMouseClicked
         // TODO add your handling code here:
+        ManagerSystem.showData(PurchaseTable.class,"PurchaseTable",purchasePlanDialog,purchasePlanTable,"purchase");
     }//GEN-LAST:event_purchasePlanCancelMouseClicked
 
     private void purchasePlanConfirmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchasePlanConfirmMouseClicked
         // TODO add your handling code here:
+        List<String> columnName = new ArrayList<String>();
+        columnName.add("commodity_id");
+        columnName.add("purchaser_id");
+        columnName.add("purchase_date");
+        columnName.add("purchase_quantity");
+        columnName.add("purchase_isDone");
+
+        int[] integerIndex = new int[4];
+        integerIndex[0] = 1;
+        integerIndex[1] = 2;
+        integerIndex[2] = 4;
+        integerIndex[3] = 5;
+
+        ManagerSystem.confirm(PurchaseTable.class,"PurchaseTable",purchasePlanDialog,purchasePlanTable,"purchase",columnName,3, integerIndex);
     }//GEN-LAST:event_purchasePlanConfirmMouseClicked
 
     private void purchasePlanConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchasePlanConfirmActionPerformed
@@ -1265,10 +1072,27 @@ public class ManagerHomePage extends javax.swing.JFrame {
 
     private void pickPlanCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pickPlanCancelMouseClicked
         // TODO add your handling code here:
+        ManagerSystem.showData(PickTable.class,"PickTable",pickPlanDialog,pickPlanTable,"pick");
     }//GEN-LAST:event_pickPlanCancelMouseClicked
 
     private void pickPlanConfirmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pickPlanConfirmMouseClicked
         // TODO add your handling code here:
+        List<String> columnName = new ArrayList<String>();
+        columnName.add("commodity_id");
+        columnName.add("picker_id");
+        columnName.add("pick_date");
+        columnName.add("pick_quantity");
+        columnName.add("pick_isDone");
+
+        int[] integerIndex = new int[4];
+        integerIndex[0] = 1;
+        integerIndex[1] = 2;
+        integerIndex[2] = 4;
+        integerIndex[3] = 5;
+
+        ManagerSystem.confirm(PickTable.class,"PickTable",pickPlanDialog,pickPlanTable,"pick",columnName,3,integerIndex);
+
+
     }//GEN-LAST:event_pickPlanConfirmMouseClicked
 
     private void pickPlanConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pickPlanConfirmActionPerformed
@@ -1293,14 +1117,12 @@ public class ManagerHomePage extends javax.swing.JFrame {
 
     private void pickPlanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pickPlanMouseClicked
         // TODO add your handling code here:
-        pickPlanDialog.pack();
-        pickPlanDialog.setVisible(true);
+        ManagerSystem.showData(PickTable.class,"PickTable",pickPlanDialog,pickPlanTable,"pick");
     }//GEN-LAST:event_pickPlanMouseClicked
 
     private void purchasePlanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchasePlanMouseClicked
         // TODO add your handling code here:
-        purchasePlanDialog.pack();
-        purchasePlanDialog.setVisible(true);
+        ManagerSystem.showData(PurchaseTable.class,"PurchaseTable",purchasePlanDialog,purchasePlanTable,"purchase");
     }//GEN-LAST:event_purchasePlanMouseClicked
 
     private void checkStorageCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkStorageCancelMouseClicked
