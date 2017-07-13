@@ -1,6 +1,7 @@
 package util;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -103,7 +104,7 @@ public class JDBC {
     }
 
     public static void main(String[] args){
-//        JDBC.getInstance().excuteUpdate("INSERT INTO 'logistics'.'purchaser' ('purchaser_id', 'purchaser_passwd', 'purchaser_name', 'purchaser_sex', 'purchaser_tel') VALUES (1,'','','','');",null);
-        JDBC.getInstance().excuteUpdate("INSERT INTO `logistics`.`purchaser` (`purchaser_id`, `purchaser_passwd`, `purchaser_name`, `purchaser_sex`, `purchaser_tel`) VALUES (1, ' ', ' ', ' ', ' ');",null);
+////        JDBC.getInstance().excuteUpdate("INSERT INTO 'logistics'.'purchaser' ('purchaser_id', 'purchaser_passwd', 'purchaser_name', 'purchaser_sex', 'purchaser_tel') VALUES (1,'','','','');",null);
+//        JDBC.getInstance().excuteUpdate("INSERT INTO `logistics`.`purchaser` (`purchaser_id`, `purchaser_passwd`, `purchaser_name`, `purchaser_sex`, `purchaser_tel`) VALUES (1, ' ', ' ', ' ', ' ');",null);
     }
 }

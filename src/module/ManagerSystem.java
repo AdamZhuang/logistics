@@ -16,6 +16,8 @@ import java.util.Set;
  * Created by 向光性 on 2017/7/12.
  */
 public class ManagerSystem {
+
+    // insert 的构建
     public static String insertSqlConstruct(String tableName, List<String> columnName) {
         String sql;
         sql = "INSERT INTO " + tableName + " (";
@@ -37,15 +39,17 @@ public class ManagerSystem {
         return sql;
     }
 
-    public static boolean isDataValid(List<String[]> data, int[] index) {
+
+    // 判断数据是否改为int的都为int
+    public static boolean isDataValid(List<String[]> data, int[] integerIndex) {
         for (int i = 0; i < data.size(); i++) {
             String[] tmp = data.get(i);
             try{
-                for (int j = 0; j < index.length; j++) {
-                    if(tmp[index[j]-1].equals("")){
+                for (int j = 0; j < integerIndex.length; j++) {
+                    if(tmp[integerIndex[j]-1].equals("")){
                         continue;
                     }
-                    Integer.parseInt(tmp[index[j]-1]);
+                    Integer.parseInt(tmp[integerIndex[j]-1]);
                 }
             }catch (Exception e){
                 e.printStackTrace();
@@ -55,6 +59,7 @@ public class ManagerSystem {
         return true;
     }
 
+    // 清洗数据，构建能与数据库交互的Data
     public static List<List<Data>> cleanData(List<String[]> data, List<String> types) {
         List<List<Data>>newData = new ArrayList<List<Data>>();
         for (int i = 0; i < data.size(); i++) {
@@ -70,6 +75,8 @@ public class ManagerSystem {
         return newData;
     }
 
+
+    // 得到table的data
     public static List<String[]> getTableData(int rowCount, int columnCount, JTable table) {
         List<String[]> data = new ArrayList<String[]>();
 
@@ -94,6 +101,8 @@ public class ManagerSystem {
         return data;
     }
 
+
+    // 判断主键是否重复
     public static boolean isPkRepeat(List<String> mainKey) {
         boolean isRepeat = false;
         Set<String> set = new HashSet<String>();
@@ -102,19 +111,19 @@ public class ManagerSystem {
                 continue;
             }
             if(set.add(mainKey.get(i)) == false){
-                JOptionPane.showMessageDialog(null, "主键重复，无法进行插入，请检查并修改数据", "警告", JOptionPane.ERROR_MESSAGE);
                 isRepeat = true;
             }
         }
         return isRepeat;
     }
 
-    public static List<String> getPK(int rowCount, int PKNum, JTable purchaserTable) {
+    //
+    public static List<String> getPK(int rowCount, int PKNum, JTable table) {
         List<String> PK =  new ArrayList<String>();
         for (int i = 0; i < rowCount; i++) {
             boolean isNull = false;
             for (int j = 0; j < PKNum; j++) {
-                if(purchaserTable.getValueAt(i,j) == null){
+                if(table.getValueAt(i,j) == null){
                     isNull = true;
                 }
             }
@@ -126,13 +135,15 @@ public class ManagerSystem {
             // 连接主键称一个字符串
             String tmp = "";
             for (int j = 0; j < PKNum; j++) {
-                tmp = tmp.concat((String)purchaserTable.getValueAt(i,j));
+                tmp = tmp.concat((String)table.getValueAt(i,j));
             }
             PK.add(tmp);
         }
         return PK;
     }
 
+
+    // 将数据转成对象
     public static <T> List<T> getResultSetList(Class<T> c, String className,ResultSet rs) throws SQLException {
         List<T> list = new ArrayList<T>();
         if(className.equals("Purchaser")) {
@@ -189,6 +200,7 @@ public class ManagerSystem {
         return list;
     }
 
+    //
     public static <T> void showData(Class<T> c, String className, JDialog dialog, JTable table,String tableName) {
         try {
             String sql = "select * from " + tableName;
@@ -242,6 +254,7 @@ public class ManagerSystem {
         List<String> PK = getPK(rowCount,primaryKeyNum, table);
         //判断主键是否重复
         if(isPkRepeat(PK)){
+            JOptionPane.showMessageDialog(null, "主键重复，无法进行插入，请检查并修改数据", "警告", JOptionPane.ERROR_MESSAGE);
             return;
         }
         // 取出所有有效数据
@@ -265,7 +278,7 @@ public class ManagerSystem {
         sql = insertSqlConstruct(tableName, columnName);
         boolean isOk = true;
         for (int i = 0; i < newData.size(); i++) {
-            if(JDBC.getInstance().excuteUpdate(sql,newData.get(i))==0){
+            if(JDBC.getInstance().excuteUpdate(sql,newData.get(i))==-1){
                 isOk = false;
             }
         }

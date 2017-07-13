@@ -7,14 +7,14 @@ import java.util.List;
  * Created by 向光性 on 2017/7/13.
  */
 public class PickTable {
-    private String pickId;
+    private String pickerId;
     private String commodityId;
     private String pickDate;
     private String quantity;
     private String isdone;
 
     public PickTable(String pickId, String commodityId, String pickDate, String quantity) {
-        this.pickId = pickId;
+        this.pickerId = pickId;
         this.commodityId = commodityId;
         this.pickDate = pickDate;
         this.quantity = quantity;
@@ -22,7 +22,7 @@ public class PickTable {
     }
 
     public PickTable(String pickId, String commodityId, String pickDate, String quantity, String isdone) {
-        this.pickId = pickId;
+        this.pickerId = pickId;
         this.commodityId = commodityId;
         this.pickDate = pickDate;
         this.quantity = quantity;
@@ -31,7 +31,7 @@ public class PickTable {
 
     public List<String> getData(){
         List<String> list = new ArrayList<String>();
-        list.add(pickId);
+        list.add(pickerId);
         list.add(commodityId);
         list.add(pickDate);
         list.add(quantity);
