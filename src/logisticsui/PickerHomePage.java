@@ -5,7 +5,7 @@
  */
 package logisticsui;
 
-import module.PurchaserSystem;
+import module.PickerSystem;
 
 /**
  *
@@ -21,7 +21,7 @@ public class PickerHomePage extends javax.swing.JFrame {
     public PickerHomePage(String pickerId) {
         this.pickerId = pickerId;
         initComponents();
-        PurchaserSystem.showData(this, pickTable, pickerId);
+        PickerSystem.showData(this, pickTable, pickerId);
     }
 
     /**
@@ -133,15 +133,16 @@ public class PickerHomePage extends javax.swing.JFrame {
                     .addComponent(cancelEdit))
                 .addGap(0, 10, Short.MAX_VALUE))
         );
+        this.setTitle("提货管理系统");
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void confirmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirmMouseClicked
-        PurchaserSystem.pickPlanConfirm(this, pickTable, pickerId);
+        PickerSystem.pickPlanConfirm(this, pickTable, pickerId);
     }//GEN-LAST:event_confirmMouseClicked
 
     private void cancelEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelEditMouseClicked
-        PurchaserSystem.showData(this,pickTable,pickerId);
+        PickerSystem.showData(this,pickTable,pickerId);
     }//GEN-LAST:event_cancelEditMouseClicked
 
     /**

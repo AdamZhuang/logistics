@@ -13,7 +13,7 @@ import module.PurchaserSystem;
  */
 public class PurchaserHomePage extends javax.swing.JFrame {
     /**
-     * Creates new form PickerHomePage
+     * Creates new form PurchaserHomePage
      */
     public PurchaserHomePage() {
         initComponents();
@@ -133,11 +133,12 @@ public class PurchaserHomePage extends javax.swing.JFrame {
                                         .addComponent(cancelEdit))
                                 .addGap(0, 10, Short.MAX_VALUE))
         );
+        this.setTitle("采购管理系统");
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void confirmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirmMouseClicked
-        PurchaserSystem.pickPlanConfirm(this, purchaserTable, purchaserId);
+        PurchaserSystem.purchasePlanConfirm(this, purchaserTable, purchaserId);
     }//GEN-LAST:event_confirmMouseClicked
 
     private void cancelEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelEditMouseClicked
@@ -161,20 +162,20 @@ public class PurchaserHomePage extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PickerHomePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PurchaserHomePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PickerHomePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PurchaserHomePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PickerHomePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PurchaserHomePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PickerHomePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PurchaserHomePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PickerHomePage().setVisible(true);
+                new PurchaserHomePage().setVisible(true);
             }
         });
     }

@@ -12,7 +12,7 @@ import java.util.List;
  * Created by 向光性 on 2017/7/12.
  */
 public class PurchaserSystem {
-    public static void pickPlanConfirm(JFrame jFrame, JTable jTable,String purchaserId){
+    public static void purchasePlanConfirm(JFrame jFrame, JTable jTable, String purchaserId){
         // 获取表格
         List<String[]> list = getTableData(jTable);
         // 判断是否有无效数据
@@ -101,31 +101,31 @@ public class PurchaserSystem {
     }
 
     public static void showData(JFrame jFrame, JTable table, String purchaserId){
-        ResultSet rs = queryPickPlan(purchaserId);
-        List<PurchaserTable> data = getResultSetList(rs);
+        ResultSet rs = queryPurchasePlan(purchaserId);
+        List<PurchaseTable> data = getResultSetList(rs);
         setTableValue(table, data);
         jFrame.repaint();
         jFrame.pack();
         jFrame.setVisible(true);
     }
 
-    public static ResultSet queryPickPlan(String purchaserId){
+    public static ResultSet queryPurchasePlan(String purchaserId){
         String sql = "select * from purchase where purchaser_id = ?;";
         List<Data> data = new ArrayList<Data>();
         data.add(new Data("Integer",purchaserId));
         return JDBC.getInstance().excuteQuery(sql,data);
     }
 
-    public static List<PurchaserTable> getResultSetList(ResultSet rs) {
+    public static List<PurchaseTable> getResultSetList(ResultSet rs) {
         try {
-            List<PurchaserTable> list = new ArrayList<PurchaserTable>();
+            List<PurchaseTable> list = new ArrayList<PurchaseTable>();
             while (rs.next()) {
                 String id = String.valueOf(rs.getInt(1));
                 String password = rs.getString(2);
                 String name = rs.getString(3);
                 String sex = rs.getString(4);
                 String tel = rs.getString(5);
-                list.add(new PurchaserTable(id, password, name, sex, tel));
+                list.add(new PurchaseTable(id, password, name, sex, tel));
             }
             return list;
         }catch (Exception e){
@@ -134,7 +134,7 @@ public class PurchaserSystem {
         return null;
     }
 
-    public static void setTableValue( JTable table, List<PurchaserTable> dataList) {
+    public static void setTableValue( JTable table, List<PurchaseTable> dataList) {
         for (int i = 0; i < dataList.size(); i++) {
             for (int j = 0; j < table.getColumnCount(); j++) {
                 table.setValueAt( dataList.get(i).getDataWithoutId().get(j) , i, j);

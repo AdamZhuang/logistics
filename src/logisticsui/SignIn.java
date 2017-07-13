@@ -218,7 +218,7 @@ public class SignIn extends javax.swing.JFrame {
         } else if(userType.equals("采购员")){
 
             //构建sql语句，以及参数
-            String sql = "select * from purchaser where picker_id = ?";
+            String sql = "select * from purchaser where purchaser_id = ?";
             List<Data> data = new ArrayList<Data>();
             data.add(new Data("Integer",username.getText()));
 
@@ -229,8 +229,8 @@ public class SignIn extends javax.swing.JFrame {
             }
 
             // 打开页面
-//            PurchaserHomePage purchaserHomePage = new PurchaserHomePage(username.getText());
-//            purchaserHomePage.setVisible(true);
+            PurchaserHomePage purchaserHomePage = new PurchaserHomePage(username.getText());
+            purchaserHomePage.setVisible(true);
         } else if(userType.equals("提货员")){
 
             //构建sql语句，以及参数
