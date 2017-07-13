@@ -9,8 +9,6 @@ public class Regex {
         if (password.matches("^[A-Za-z0-9_]+$")) {
             return true;
         }
-
         return false;
     }
 }
-

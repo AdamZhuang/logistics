@@ -84,7 +84,7 @@ public class PurchaserHomePage extends javax.swing.JFrame {
                         {null, null, null, null}
                 },
                 new String [] {
-                        "商品编号", "商品名称", "提货数量", "0:未完成,1:完成"
+                        "商品编号", "商品名称", "采购数量", "0:未完成,1:完成"
                 }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -186,5 +186,6 @@ public class PurchaserHomePage extends javax.swing.JFrame {
     private javax.swing.JScrollPane purchaserScrollPane;
     private javax.swing.JTable purchaserTable;
     private String purchaserId;
+
     // End of variables declaration//GEN-END:variables
 }

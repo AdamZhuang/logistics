@@ -218,12 +218,12 @@ public class SignIn extends javax.swing.JFrame {
         } else if(userType.equals("采购员")){
 
             //构建sql语句，以及参数
-            String sql = "select * from purchaser where purchaser_id = ?";
+            String sql = "select purchaser_passwd from purchaser where purchaser_id = ?";
             List<Data> data = new ArrayList<Data>();
             data.add(new Data("Integer",username.getText()));
 
             //密码验证
-            if (passwordVerify(sql, data)) {
+            if (!passwordVerify(sql, data)) {
                 tipDialogPop();
                 return;
             }
@@ -234,12 +234,12 @@ public class SignIn extends javax.swing.JFrame {
         } else if(userType.equals("提货员")){
 
             //构建sql语句，以及参数
-            String sql = "select * from picker where picker_id = ?";
+            String sql = "select picker_passwd from picker where picker_id = ?";
             List<Data> data = new ArrayList<Data>();
             data.add(new Data("Integer",username.getText()));
 
             //密码验证
-            if (passwordVerify(sql, data)) {
+            if (!passwordVerify(sql, data)) {
                 tipDialogPop();
                 return;
             }
