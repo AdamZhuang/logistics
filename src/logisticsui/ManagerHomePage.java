@@ -1031,7 +1031,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
         columnName.add("purchaser_id");
         columnName.add("purchase_date");
         columnName.add("purchase_quantity");
-        columnName.add("purchase_isDone");
+        columnName.add("purchase_isdone");
 
         int[] integerIndex = new int[4];
         integerIndex[0] = 1;
@@ -1062,7 +1062,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
         columnName.add("picker_id");
         columnName.add("pick_date");
         columnName.add("pick_quantity");
-        columnName.add("pick_isDone");
+        columnName.add("pick_isdone");
 
         int[] integerIndex = new int[4];
         integerIndex[0] = 1;

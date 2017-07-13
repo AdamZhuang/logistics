@@ -70,13 +70,13 @@ public class ManagerSystem {
         return newData;
     }
 
-    public static List<String[]> getTableData(int rowCount, int columnCount, JTable purchaserTable) {
+    public static List<String[]> getTableData(int rowCount, int columnCount, JTable table) {
         List<String[]> data = new ArrayList<String[]>();
 
         for (int i = 0; i < rowCount; i++) {
             int count = 0;
             for (int j = 0; j < columnCount; j++) {
-                if(purchaserTable.getValueAt(i,j)==null || purchaserTable.getValueAt(i,j).equals("")){
+                if(table.getValueAt(i,j)==null || table.getValueAt(i,j).equals("")){
                     count++;
                 }
             }
@@ -87,7 +87,7 @@ public class ManagerSystem {
             // 添加数据
             String[] tmp = new String[columnCount];
             for (int j = 0; j < columnCount; j++) {
-                tmp[j] = (String)purchaserTable.getValueAt(i,j);
+                tmp[j] = (String)table.getValueAt(i,j);
             }
             data.add(tmp);
         }

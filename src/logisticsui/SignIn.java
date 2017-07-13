@@ -50,7 +50,7 @@ public class SignIn extends javax.swing.JFrame {
         tipDialog.setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
         tipDialog.setResizable(false);
 
-        tip.setText("密码错误");
+        tip.setText("账号或者密码错误");
 
         confirm.setText("确定");
         confirm.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -194,74 +194,85 @@ public class SignIn extends javax.swing.JFrame {
     }//GEN-LAST:event_passwordFocusLost
 
     private void signinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signinMouseClicked
-        // TODO add your handling code here:
-        // 初始化JDBC
-        JDBC jdbc = JDBC.getInstance();
-
         // 获取用户类型
         String userType = String.valueOf(option.getSelectedItem());
+
         // 根据登录用户类型验证用户名以及密码进行登陆
         if(userType.equals("管理员")){
+
             // 用户名错误弹出提示框（管理员用户名为admin）
             if(!username.getText().equals("admin")){
                 tipDialogPop();
                 return;
             }
-            try {
-                // 构造sql语句
-                String sql = "select manager_passwd from manager where manager_username = 'admin'";
-                // 获取结果集
-                ResultSet rs = jdbc.excuteQuery(sql,null);
-                if(rs.next()) {
-                    String pw = rs.getString(1);
-                    String inputedPW = password.getText();
-                    if (!pw.equals(inputedPW)) {
-                        tipDialogPop();
-                        return;
-                    }
-                }
-                // 验证成功，登陆界面
-                ManagerHomePage managerHomePage = new ManagerHomePage();
-                managerHomePage.setVisible(true);
-            } catch (SQLException e) {
-                e.printStackTrace();
 
+            String sql = "select manager_passwd from manager where manager_username = 'admin'";
+            if( passwordVerify(sql,null) == false ){
+                tipDialogPop();
+                return;
             }
+
+            // 验证成功，登陆界面
+            ManagerHomePage managerHomePage = new ManagerHomePage();
+            managerHomePage.setVisible(true);
         } else if(userType.equals("采购员")){
+
+            //构建sql语句，以及参数
+            String sql = "select * from purchaser where picker_id = ?";
+            List<Data> data = new ArrayList<Data>();
+            data.add(new Data("Integer",username.getText()));
+
+            //密码验证
+            if (passwordVerify(sql, data)) {
+                tipDialogPop();
+                return;
+            }
+
+            // 打开页面
+//            PurchaserHomePage purchaserHomePage = new PurchaserHomePage(username.getText());
+//            purchaserHomePage.setVisible(true);
+        } else if(userType.equals("提货员")){
+
             //构建sql语句，以及参数
             String sql = "select * from picker where picker_id = ?";
-            List<Data> list = new ArrayList<Data>();
-            list.add(new Data("Integer",username.getText()));
+            List<Data> data = new ArrayList<Data>();
+            data.add(new Data("Integer",username.getText()));
 
-            try {
-                //获取结果集
-                ResultSet rs = jdbc.excuteQuery(sql,list);
-                if(rs.next()){
-                    String pw = rs.getString(2);
-                    String inputedPW = password.getText();
-                    if(!pw.equals(inputedPW)){
-                        tipDialogPop();
-                        return;
-                    }
-                }else{
-                    tipDialogPop();
-                    return;
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            //密码验证
+            if (passwordVerify(sql, data)) {
+                tipDialogPop();
+                return;
             }
 
-
-            PurchaserHomePage purchaserHomePage = new PurchaserHomePage();
-            purchaserHomePage.setVisible(true);
-        } else if(userType.equals("提货员")){
-            PickerHomePage pickerHomePage = new PickerHomePage();
+            // 打开页面
+            PickerHomePage pickerHomePage = new PickerHomePage(username.getText());
             pickerHomePage.setVisible(true);
         }
         
         // 关闭当前窗口
         this.dispose();
     }//GEN-LAST:event_signinMouseClicked
+
+    private boolean passwordVerify(String sql, List<Data> list) {
+        try {
+            //获取结果集
+            ResultSet rs = JDBC.getInstance().excuteQuery(sql,list);
+            if(rs.next()){
+                String pw = rs.getString(1);
+                String inputedPW = password.getText();
+                if(!pw.equals(inputedPW)){
+                    return false;
+                }
+                return true;
+            }else{
+                tipDialogPop();
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     private void tipDialogPop() {
         tipDialog.pack();

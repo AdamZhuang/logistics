@@ -66,7 +66,6 @@ public class JDBC {
 
     // 更新数据
     public int excuteUpdate(String sql, List<Data> info) {
-        boolean isdone = false;
         try {
             // 构造prepared
             pst = conn.prepareStatement(sql);
@@ -76,7 +75,7 @@ public class JDBC {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return 0;
+        return -1;
     }
 
     public void dataprocess(List<Data> info) {

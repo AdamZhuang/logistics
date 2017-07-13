@@ -38,4 +38,13 @@ public class PurchaseTable {
         list.add(isdone);
         return list;
     }
+
+    public List<String> getDataWithoutId(){
+        List<String> list = new ArrayList<String>();
+        list.add(commodityId);
+        list.add(pickDate);
+        list.add(quantity);
+        list.add(isdone);
+        return list;
+    }
 }
