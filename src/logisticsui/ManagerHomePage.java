@@ -97,7 +97,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
         });
         purchaserTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
+                {null, null, null, null, null,},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},

@@ -117,7 +117,7 @@ public class ManagerSystem {
         return isRepeat;
     }
 
-    //
+    // 获得主键
     public static List<String> getPK(int rowCount, int PKNum, JTable table) {
         List<String> PK =  new ArrayList<String>();
         for (int i = 0; i < rowCount; i++) {
@@ -153,6 +153,7 @@ public class ManagerSystem {
                 String name = rs.getString(3);
                 String sex = rs.getString(4);
                 String tel = rs.getString(5);
+
                 list.add((T)new Purchaser(id, password, name, sex, tel));
             }
         } else if(className.equals("Picker")){
@@ -223,19 +224,24 @@ public class ManagerSystem {
     public static <T> void setTableValue(Class<T> c, String className, JTable table, List<T> dataList) {
         for (int i = 0; i < dataList.size(); i++) {
             for (int j = 0; j < table.getColumnCount(); j++) {
-                if(className.equals("Purchaser")){
-                    table.setValueAt( ((Purchaser)dataList.get(i)).getData().get(j) , i, j);
-                } else if(className.equals("Picker")){
-                    table.setValueAt( ((Picker)dataList.get(i)).getData().get(j) , i, j);
-                } else if(className.equals("Commodity")){
-                    table.setValueAt( ((Commodity)dataList.get(i)).getData().get(j) , i, j);
-                } else if(className.equals("PurchaserTable")){
-                    table.setValueAt( ((PurchaseTable)dataList.get(i)).getData().get(j) , i, j);
-                } else if(className.equals("PickTable")){
-                    table.setValueAt( ((PickTable)dataList.get(i)).getData().get(j) , i, j);
-                } else if(className.equals("Repository")){
-                    table.setValueAt( ((Repository)dataList.get(i)).getData().get(j) , i, j);
+                try {
+                    if(className.equals("Purchaser")){
+                        table.setValueAt( ((Purchaser)dataList.get(i)).getData().get(j) , i, j);
+                    } else if(className.equals("Picker")){
+                        table.setValueAt( ((Picker)dataList.get(i)).getData().get(j) , i, j);
+                    } else if(className.equals("Commodity")){
+                        table.setValueAt( ((Commodity)dataList.get(i)).getData().get(j) , i, j);
+                    } else if(className.equals("PurchaserTable")){
+                        table.setValueAt( ((PurchaseTable)dataList.get(i)).getData().get(j) , i, j);
+                    } else if(className.equals("PickTable")){
+                        table.setValueAt( ((PickTable)dataList.get(i)).getData().get(j) , i, j);
+                    } else if(className.equals("Repository")){
+                        table.setValueAt( ((Repository)dataList.get(i)).getData().get(j) , i, j);
+                    }
+                } catch (Exception e){
+                    continue;
                 }
+
             }
         }
 
@@ -325,6 +331,7 @@ public class ManagerSystem {
             String newPassword2 = newPasswordAgainTF.getText();
             if(!newPassword1.equals(newPassword2)){
                 JOptionPane.showMessageDialog(null,"两次输入密码不一致","警告",JOptionPane.ERROR_MESSAGE);
+                return;
             }
 
             //获取用户密码以及输入密码
